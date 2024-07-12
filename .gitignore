@@ -1,0 +1,32 @@
+# Archivos ejecutables
+*.exe
+*.out
+
+# Archivos objeto
+*.o
+
+# Archivos de dependencias
+*.d
+
+# Archivos de respaldo
+*~
+
+# Archivos de configuración de IDEs
+.vscode/
+.idea/
+
+# Archivos de compilación
+build/
+
+# Archivos de dependencias de CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Archivos generados por CMake
+CMakeLists.txt.user
+CMakeLists.txt.user.in
+
+# Archivos de salida de compilación
+bin/
