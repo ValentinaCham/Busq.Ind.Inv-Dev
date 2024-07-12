@@ -66,3 +66,35 @@ std::set<int> searchWord(const std::string& word, const std::vector<std::pair<st
     return {};  // Devolver conjunto vacío si la palabra no está presente
 }
 
+int main() {
+    // Lista de archivos de entrada
+    std::vector<std::string> filepaths = {"file1.txt", "file2.txt", "file3.txt"};
+
+    // Leer documentos de los archivos de entrada
+    std::vector<std::pair<int, std::string>> mapper_output = readDocuments(filepaths);
+
+    std::unordered_map<std::string, std::set<int>> intermediate_output;  // Mapa para almacenar palabras y sus IDs de documentos
+    std::unordered_map<std::string, unsigned long> hash_values;  // Mapa para almacenar valores hash de palabras
+
+    // Mapper
+    for (const auto& pair : mapper_output) {
+        int doc_id = pair.first;
+        std::string document = pair.second;
+        std::string word;
+        for (char c : document) {
+            if (isspace(c)) {  // Si el carácter es un espacio, se termina la palabra actual
+                if (!word.empty()) {
+                    intermediate_output[word].insert(doc_id);  // Insertar palabra y su ID de documento en el mapa
+                    hash_values[word] = hash_djb2(word);  // Calcular y guardar el valor hash de la palabra
+                    word.clear();  // Limpiar la palabra para la siguiente
+                }
+            } else {
+                word += tolower(c);  // Convertir el carácter a minúscula y añadirlo a la palabra actual
+            }
+        }
+        if (!word.empty()) {  // Si queda una palabra al final del documento
+            intermediate_output[word].insert(doc_id);  // Insertarla en el mapa
+            hash_values[word] = hash_djb2(word);  // Calcular y guardar su valor hash
+        }
+    }
+
