@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_map>
+#include <unordered_set>
 #include <string>
 #include <vector>
 #include <set>
@@ -86,16 +87,14 @@ std::set<int> searchWord(const std::string &word, const std::vector<std::pair<st
 // Si es que preposición o algún otro tipo de palabra que no se debe considerar
 boolean isprep(std::string word)
 {
-    std::string preps[] = {"a","se", "al", "ante", "del", "cabe", "con", "sino", "de", "desde", "si", "su", "en", "entre", "sus", "hasta", "mío", "para", "sí", "yó", "por", "la", "sin", "so", "sobre", "tras", "él", "no", "lo", "un", "y", "o", "ni", "que", "pero", "aunque", "sino", "si", "el", "ello", "iba", "sido", "cada", "los", "ya", "cual"};
-    // size of preps
-    int size = sizeof(preps) / sizeof(preps[0]);
-    for (int i = 0; i < size; i++)
-    {
-        if (word == preps[i] || word.length() == 1)
-        {
-            return true;
-        }
-    }
+    // Conjunto de preposiciones para reconocer
+    std::unordered_set<std::string> avoided_words = {
+        "a", "se", "al", "ante", "del", "cabe", "con", "sino", "de", "desde", "si", "su",
+        "en", "entre", "sus", "hasta", "mío", "para", "sí", "yó", "por", "la", "sin",
+        "so", "sobre", "tras", "él", "no", "lo", "un", "y", "o", "ni", "que", "pero",
+        "aunque", "sino", "si", "el", "ello", "iba", "sido", "cada", "los", "ya", "cual"};
+    if (avoided_words.count(word) > 0)
+        return true;
     return false;
 }
 // Método que devuelve una lista de archivos en una ruta path
@@ -149,7 +148,7 @@ int main()
     // std::vector<std::string> filepaths = getFilesInDirectory("./txt");
     // print filepaths
     // for (int i = 0; i < filepaths.size(); i++)
-    // {  
+    // {
     //     std::wcout << std::wstring(filepaths[i].begin(), filepaths[i].end()) << std::endl;
     // }
 
@@ -159,7 +158,7 @@ int main()
     std::unordered_map<std::string, std::set<int>> intermediate_output;
     std::unordered_map<std::string, unsigned long> hash_values;
 
-        std::wcout << L"Archivos de entrada: " << std::endl;
+    std::wcout << L"Archivos de entrada: " << std::endl;
     // Mapper - Cada palabra será asignada a una lista de archivos
     for (const auto &pair : mapper_output)
     {
@@ -179,7 +178,6 @@ int main()
                         // std::wcout << "Palabra aceptada: " << std::wstring(word.begin(), word.end()) << std::endl;
                     }
                     word.clear();
-                    
                 }
             }
             else
