@@ -41,4 +41,7 @@ Este método hallará el valor hashdbj2 resultante del string ingresado, para ac
 - Compile el archivo main.cpp
 - Ejecute el archivo de salida
 
+## Estructura de Datos para analisis invertido
+La seleccion es 
+
 ## Referencias
