@@ -57,3 +57,12 @@ void saveHashValues(const std::string& filepath, const std::unordered_map<std::s
     }
 }
 
+// Función de búsqueda por índice invertido
+std::set<int> searchWord(const std::string& word, const std::vector<std::pair<std::string, std::set<int>>>& lookup_table) {
+    unsigned long position = hash_djb2(word) % lookup_table.size();  // Calcular la posición basada en el hash de la palabra
+    if (lookup_table[position].first == word) {  // Si la palabra coincide con la encontrada en esa posición
+        return lookup_table[position].second;  // Devolver los IDs de documento asociados a esa palabra
+    }
+    return {};  // Devolver conjunto vacío si la palabra no está presente
+}
+
