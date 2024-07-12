@@ -30,3 +30,30 @@ std::vector<std::pair<int, std::string>> readDocuments(const std::vector<std::st
     }
     return documents;
 }
+
+// Función para guardar los resultados de búsqueda en un archivo de salida
+void saveResults(const std::string& filepath, const std::vector<std::pair<std::string, std::set<int>>>& lookup_table) {
+    std::ofstream outfile(filepath);  // Abrir archivo de salida
+    if (outfile.is_open()) {
+        for (const auto& pair : lookup_table) {
+            if (!pair.first.empty()) {  // Asegurarse de que la palabra no esté vacía
+                outfile << "(" << pair.first << ", ";  // Escribir la palabra en el archivo
+                for (int doc_id : pair.second) {
+                    outfile << doc_id << " ";  // Escribir cada ID de documento asociado a la palabra
+                }
+                outfile << ")\n";
+            }
+        }
+    }
+}
+
+// Función para guardar los valores hash en un archivo de salida
+void saveHashValues(const std::string& filepath, const std::unordered_map<std::string, unsigned long>& hash_values) {
+    std::ofstream outfile(filepath);  // Abrir archivo de salida
+    if (outfile.is_open()) {
+        for (const auto& pair : hash_values) {
+            outfile << "\"" << pair.first << "\" usando djb2 es " << pair.second << ".\n";  // Escribir la palabra y su valor hash
+        }
+    }
+}
+
