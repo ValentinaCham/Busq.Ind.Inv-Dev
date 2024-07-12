@@ -98,3 +98,36 @@ int main() {
         }
     }
 
+    // Reducer
+    const unsigned long table_size = intermediate_output.size();  // Tamaño del índice invertido
+    std::vector<std::pair<std::string, std::set<int>>> lookup_table(table_size);  // Vector para almacenar el índice invertido
+
+    for (const auto& pair : intermediate_output) {
+        const std::string& word = pair.first;
+        const std::set<int>& doc_ids = pair.second;
+        unsigned long position = hash_djb2(word) % table_size;  // Calcular posición basada en el hash de la palabra
+        lookup_table[position] = std::make_pair(word, doc_ids);  // Almacenar la palabra y sus IDs de documentos en el índice invertido
+    }
+
+    // Guardar los resultados en un archivo de salida
+    saveResults("output.txt", lookup_table);
+    // Guardar los valores hash en un archivo separado
+    saveHashValues("hash_values.txt", hash_values);
+
+    // Solicitar al usuario que ingrese una palabra para buscar
+    std::string search_word;
+    std::cout << "Ingrese la palabra a buscar: ";
+    std::cin >> search_word;
+
+    // Búsqueda
+    std::set<int> result = searchWord(search_word, lookup_table);
+
+    // Mostrar resultados de la búsqueda
+    std::cout << "Documentos que contienen la palabra \"" << search_word << "\": ";
+    for (int doc_id : result) {
+        std::cout << doc_id << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
