@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebAssembly File Upload</title>
+</head>
+<body>
+    <h1>Subir archivo a WebAssembly</h1>
+    <input type="file" id="fileInput">
+    <button onclick="upload()">Subir Archivo</button>
+
+    <script src="upload.js"></script>
+    <script>
+        // Inicializar el módulo de WebAssembly
+        var Module = {
+            onRuntimeInitialized: function() {
+                document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+            }
+        };
+
+        // Manejar la selección de archivos y subida
+        function handleFileSelect(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let arrayBuffer = e.target.result;
+                    let bytes = new Uint8Array(arrayBuffer);
+                    let filename = file.name;
+                    Module.upload_file(bytes, bytes.length, filename);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        }
+
+        // Función para invocar desde el botón
+        function upload() {
+            console.log('Subiendo archivo...');
+        }
+    </script>
+</body>
+</html>
