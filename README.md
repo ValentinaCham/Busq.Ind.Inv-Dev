@@ -1,6 +1,7 @@
 # Busqueda invertida con Map Reducer
 
-Proyecto que implementa la búsuqeda invertida y optimiza el proceso para  garantizar una mejor búsqueda 
+Proyecto que implementa la búsuqeda invertida y optimiza el proceso para  garantizar una mejor búsqueda.
+Trabajo con Jira
 
 ## Explicación
 
